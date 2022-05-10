@@ -1,21 +1,23 @@
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class AppTest {
     private Set<Enrollee> enrolleeSet;
+    private String destinationPath = "src/main/resources";
 
     @Before
     public void reSet(){
         enrolleeSet = new TreeSet<>();
-        enrolleeSet.add(new Enrollee("001", "mary", "poppins", 3, "highmark"));
-        enrolleeSet.add(new Enrollee("001", "mary", "poppins", 2, "highmark"));
-        enrolleeSet.add(new Enrollee("002", "john", "conner", 1, "highmark"));
+        enrolleeSet.add(new Enrollee("001", "mary", "poppins", 3, "bluecross"));
+        enrolleeSet.add(new Enrollee("001", "mary", "poppins", 2, "bluecross"));
+        enrolleeSet.add(new Enrollee("002", "john", "conner", 1, "UPMC"));
+        enrolleeSet.add(new Enrollee("003", "ted", "lasso", 2, "UPMC"));
     }
 
     @After
@@ -25,15 +27,13 @@ public class AppTest {
 
 
     @Test
-    public void remove_Duplicates_Removes_Duplicates(){
-        long sizeOfList = App.removeDuplicatesFromSet(enrolleeSet).size();
-        Assert.assertEquals(2, sizeOfList);
+    public void write_To_File_Creates_Correct_Number_Of_Files(){
+        App.writeToFiles(enrolleeSet);
+        for (Enrollee enrollee : enrolleeSet){
+            File test = new File(enrollee.getInsuranceCompany() + ".csv");
+            Assert.assertTrue(test.exists());
+        }
 
     }
-    @Test
-    public void remove_Duplicates_Removes_Correct_Entry(){
-        List<Enrollee> list = App.removeDuplicatesFromSet(enrolleeSet);
-        long version = list.get(1).getVersion();
-        Assert.assertEquals(3, version);
-    }
+
 }

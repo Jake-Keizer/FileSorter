@@ -42,12 +42,9 @@ public class Enrollee implements Comparable<Enrollee> {
     public int compareTo(Enrollee enrollee) {
         int lastNameDiff = lastName.compareTo(enrollee.lastName);
         if (lastNameDiff == 0) {
-            int firstNameDiff = firstName.compareTo(enrollee.firstName);
-            if (firstNameDiff == 0) {
-                return this.version + version;
-
-            }
+            return firstName.compareTo(enrollee.firstName);
         }
-        return firstName.compareTo(enrollee.firstName);
+        return lastNameDiff;
+
     }
 }
